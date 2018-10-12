@@ -1,7 +1,9 @@
 require('./config/config')
 const express = require('express'),
     app = express(),
+    mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    colors = require('colors'),
     c = console.log
 
 
@@ -11,33 +13,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/usuario', (req, res) => {
-    res.json('getUsuario')
-})
-app.post('/usuario', (req, res) => {
+app.use(require('./routes/usuario'))
 
 
-    let body = req.body
+mongoose.connect(process.env.URLDB, (err, res) => {
 
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            message: 'El nombre es necesario'
-        })
-    } else {
-        res.json({
-            body
-        })
+    if (err) {
+        throw err
     }
-})
-app.put('/usuario/:id', (req, res) => {
-    let id = req.params.id
-    res.json({
-        id
-    })
-})
-app.delete('/usuario', (req, res) => {
-    res.json('deleeUsuario')
+    c(`Base de datos Online`.green)
 })
 
-app.listen(process.env.PORT, () => c('Escuchando el puerto', process.env.PORT))
+
+app.listen(process.env.PORT, () => c(`Escuchando el puerto, ${process.env.PORT}`.green))
