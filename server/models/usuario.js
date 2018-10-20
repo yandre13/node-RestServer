@@ -43,11 +43,8 @@ let usuarioSchema = new Schema({
 })
 usuarioSchema.methods.toJSON = function() {
     let user = this
-    console.log(user)
     let userObj = user.toObject()
-    console.log(userObj)
     delete userObj.password
-    console.log(userObj)
     return userObj
 }
 usuarioSchema.plugin(uniqueValidator, { message: 'El {PATH} debe ser único' })
