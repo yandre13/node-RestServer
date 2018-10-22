@@ -3,6 +3,7 @@ const express = require('express'),
     app = express(),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    path = require('path'),
     colors = require('colors'),
     c = console.log
 
@@ -12,6 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
 app.use(bodyParser.json())
+
+
+app.use(express.static(path.resolve(__dirname, '../public')))
 
 app.use(require('./routes/index'))
 
